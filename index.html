@@ -6,6 +6,7 @@
     <title>Enterprise Project Management</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://googleapis.com" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
 </head>
 <body>
 
@@ -37,10 +38,8 @@
                         <option value="arctic">❄️ Arctic Frost</option>
                     </select>
                     <div class="button-group">
-                        <button class="btn btn-secondary" onclick="exportData()">Export</button>
-                        <button class="btn btn-secondary" onclick="document.getElementById('importFile').click()">Import</button>
-                        <input type="file" id="importFile" style="display:none" onchange="importData(event)">
-                        <button class="btn btn-primary" onclick="addTask()">+ Add Task</button>
+                        <button class="btn btn-primary" onclick="addTask()">+ Add Task</button>   
+                        <button class="btn btn-primary" onclick="exportToExcel()">Export to Excel</button>             
                     </div>
                 </div>
             </header>
@@ -95,7 +94,7 @@
                 <table>
                     <thead>
                         <tr>
-                            <th width="30%">TASK DESCRIPTION</th>
+                            <th width="30%">MODIFICATION DETAILS</th>
                             <th width="15%">DATE ESCALATE</th>
                             <th width="15%">DATE MODIFIED</th>
                             <th width="15%">STATUS</th>
@@ -108,7 +107,7 @@
             </div>
         </div>
     </main>
-
+    
     <!-- CUSTOM DARK MODAL -->
     <div id="modal-overlay" class="modal-overlay">
         <div class="modal-content">
@@ -120,7 +119,7 @@
             <div class="modal-actions">
                 <button class="btn btn-secondary" onclick="closeModal()">CANCEL</button>
                 <button class="btn btn-primary" onclick="submitModal()">CONFIRM</button>
-            </div>
+            </div>       
         </div>
     </div>
 
