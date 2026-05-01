@@ -96,7 +96,7 @@ function render() {
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td><input type="text" value="${t.name || ''}" onchange="up(${realIdx},'name',this.value)"></td>
-            <td><input type="date" value="${t.Date Escalate}" onchange="up(${realIdx},'Date Escalate',this.value)"></td>
+            <td><input type="date" value="${t.timeline}" onchange="up(${realIdx},'timeline',this.value)"></td>
             <td><input type="date" value="${t.modified}" onchange="up(${realIdx},'modified',this.value)"></td>
             <td><select onchange="up(${realIdx},'status',this.value)">
                 <option ${t.status==='PENDING'?'selected':''}>PENDING</option>
@@ -113,7 +113,7 @@ function render() {
 function addTask() { 
     const p = projects.find(x => x.id === activeId); 
     const d = new Date().toISOString().split('T')[0];
-    p.tasks.push({name:"", Date Escalate: d, modified: d, status:"PENDING", remarks:""}); 
+    p.tasks.push({name:"", timeline: d, modified: d, status:"PENDING", remarks:""}); 
     save(); render(); 
 }
 
@@ -131,15 +131,18 @@ function del(idx) {
     }
 }
 
-function exportData() {
-    const blob = new Blob([JSON.stringify(projects)],{type:"application/json"});
-    const a = document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="Project_Data.json"; a.click();
-}
+// Excel Export
+function exportToExcel() {
+    const activeProj = projects.find(p => p.id === activeId);
+    const tasks = activeProj ? activeProj.tasks : [];
+    
+    // Create workbook and add data
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(tasks);
+    XLSX.utils.book_append_sheet(wb, ws, 'Tasks');
 
-function importData(e) {
-    const r = new FileReader();
-    r.onload = (x) => { projects = JSON.parse(x.target.result); activeId = projects[0].id; save(); render(); };
-    r.readAsText(e.target.files[0]);
+    // Save the file
+    XLSX.writeFile(wb, `${activeProj.name}_tasks.xlsx`);
 }
 
 modalInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') submitModal(); });
