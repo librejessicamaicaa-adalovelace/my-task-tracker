@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Project Management</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://googleapis.com" rel="stylesheet">
+</head>
+<body>
+
+    <aside id="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-logo"></div>
+            <span>PROJECT <strong>MANAGEMENT</strong></span>
+        </div>
+        <div class="sidebar-header">Workspace Navigation</div>
+        <div id="project-list" class="nav-container"></div>
+        <button class="btn btn-add-project" onclick="openProjectModal('ADD')">+ New Workspace</button>
+    </aside>
+
+    <main id="main-content">
+        <!-- STATIC TOP SECTION -->
+        <div class="fixed-header-section">
+            <header>
+                <div class="header-left">
+                    <h1 id="active-project-title" class="glow-active">Overview</h1>
+                    <div id="filter-indicator" class="btn-filter-tag" onclick="filterByStatus('ALL')"></div>
+                </div>
+
+                <div class="header-right">
+                    <select id="theme-selector" class="theme-select" onchange="changeTheme(this.value)">
+                        <option value="cyber">🤖 Cyber Gold</option>
+                        <option value="default">🌌 Neon Night</option>
+                        <option value="forest">🌲 Deep Forest</option>
+                        <option value="lava">🌋 Magma Red</option>
+                        <option value="arctic">❄️ Arctic Frost</option>
+                    </select>
+                    <div class="button-group">
+                        <button class="btn btn-secondary" onclick="exportData()">Export</button>
+                        <button class="btn btn-secondary" onclick="document.getElementById('importFile').click()">Import</button>
+                        <input type="file" id="importFile" style="display:none" onchange="importData(event)">
+                        <button class="btn btn-primary" onclick="addTask()">+ Add Task</button>
+                    </div>
+                </div>
+            </header>
+
+            <section id="dashboard-status">
+                <div class="stat-card" id="card-pending" onclick="filterByStatus('PENDING')">
+                    <div class="card-label">📁 PENDING</div>
+                    <div class="card-body">
+                        <div class="card-count"><h2 id="count-pending">00</h2></div>
+                        <div class="ring-box">
+                            <svg width="60" height="60"><circle class="bg" cx="30" cy="30" r="25"/><circle id="ring-pending" class="prog" cx="30" cy="30" r="25"/></svg>
+                            <span id="percent-pending">0%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card" id="card-progress" onclick="filterByStatus('IN PROGRESS')">
+                    <div class="card-label">⚙️ IN PROGRESS</div>
+                    <div class="card-body">
+                        <div class="card-count"><h2 id="count-progress">00</h2></div>
+                        <div class="ring-box">
+                            <svg width="60" height="60"><circle class="bg" cx="30" cy="30" r="25"/><circle id="ring-progress" class="prog" cx="30" cy="30" r="25"/></svg>
+                            <span id="percent-progress">0%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card" id="card-review" onclick="filterByStatus('FOR REVIEW')">
+                    <div class="card-label">👥 FOR REVIEW</div>
+                    <div class="card-body">
+                        <div class="card-count"><h2 id="count-review">00</h2></div>
+                        <div class="ring-box">
+                            <svg width="60" height="60"><circle class="bg" cx="30" cy="30" r="25"/><circle id="ring-review" class="prog" cx="30" cy="30" r="25"/></svg>
+                            <span id="percent-review">0%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card" id="card-completed" onclick="filterByStatus('COMPLETED')">
+                    <div class="card-label">🖥️ COMPLETED</div>
+                    <div class="card-body">
+                        <div class="card-count"><h2 id="count-completed">00</h2></div>
+                        <div class="ring-box">
+                            <svg width="60" height="60"><circle class="bg" cx="30" cy="30" r="25"/><circle id="ring-completed" class="prog" cx="30" cy="30" r="25"/></svg>
+                            <span id="percent-completed">0%</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- SCROLLABLE TABLE AREA -->
+        <div class="table-scroll-container">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th width="30%">TASK DESCRIPTION</th>
+                            <th width="15%">TIMELINE</th>
+                            <th width="15%">DATE MODIFIED</th>
+                            <th width="15%">STATUS</th>
+                            <th>REMARKS</th>
+                            <th width="80px"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="task-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- CUSTOM DARK MODAL -->
+    <div id="modal-overlay" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="modal-title">WORKSPACE</h3>
+            <div class="modal-input-group">
+                <label>Workspace Name</label>
+                <input type="text" id="workspace-input" placeholder="e.g. Sales Orders 2024">
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal()">CANCEL</button>
+                <button class="btn btn-primary" onclick="submitModal()">CONFIRM</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
