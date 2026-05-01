@@ -96,7 +96,7 @@ function render() {
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td><input type="text" value="${t.name || ''}" onchange="up(${realIdx},'name',this.value)"></td>
-            <td><input type="date" value="${t.timeline}" onchange="up(${realIdx},'timeline',this.value)"></td>
+            <td><input type="date" value="${t.Date Escalate}" onchange="up(${realIdx},'Date Escalate',this.value)"></td>
             <td><input type="date" value="${t.modified}" onchange="up(${realIdx},'modified',this.value)"></td>
             <td><select onchange="up(${realIdx},'status',this.value)">
                 <option ${t.status==='PENDING'?'selected':''}>PENDING</option>
@@ -113,7 +113,7 @@ function render() {
 function addTask() { 
     const p = projects.find(x => x.id === activeId); 
     const d = new Date().toISOString().split('T')[0];
-    p.tasks.push({name:"", timeline: d, modified: d, status:"PENDING", remarks:""}); 
+    p.tasks.push({name:"", Date Escalate: d, modified: d, status:"PENDING", remarks:""}); 
     save(); render(); 
 }
 
